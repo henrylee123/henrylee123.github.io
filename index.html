@@ -302,15 +302,12 @@
         
           
             <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><blockquote>
-<p>提供 api ‘<a href="https://app-cdn.2q10.com/api/v2/currency&#39;" target="_blank" rel="noopener">https://app-cdn.2q10.com/api/v2/currency&#39;</a> 能获取到实时汇率</p>
-</blockquote>
-<blockquote>
-<p>实现任何货币转换成人民币的接口 sdk</p>
+<p>提供 api ‘<a href="https://app-cdn.2q10.com/api/v2/currency&#39;" target="_blank" rel="noopener">https://app-cdn.2q10.com/api/v2/currency&#39;</a> 能获取到实时汇率<br>实现任何货币转换成人民币的接口 sdk</p>
 </blockquote>
 <ul>
-<li>例如：$10,000.00 -&gt; CNY68,000.00<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3></li>
+<li>例如：$10,000.00 -&gt; CNY68,000.00</li>
 </ul>
-<ol>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
 <li>内置一张符号标准化表</li>
 <li>汇率不可能实时获取，保存一个缓存在本地。超过10获取一次</li>
 <li>单例模式实现，减少消耗，从其他模块 import</li>
@@ -943,19 +940,13 @@
         
           
             <h3 id="cache"><a href="#cache" class="headerlink" title="cache"></a>cache</h3><blockquote>
-<blockquote>
 <p>cache 主要作用缓解 cpu 与普通内存的速度差异。把频繁的寻址地址缓存在 cache 能够优化系统性能。</p>
 </blockquote>
-</blockquote>
-<blockquote>
 <blockquote>
 <p>cache 有三级，一级比一级快。</p>
 </blockquote>
-</blockquote>
 <h3 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h3><blockquote>
-<blockquote>
 <p>buffer 一定程度上减少对 i/o 的设备访问次数。 比如，写入一个文件到磁盘中的时候，会先存一部分在 buffer 里，攒到一定量的时候再写回磁盘中。减少对此盘的访问次数</p>
-</blockquote>
 </blockquote>
 <h3 id="查看使用率"><a href="#查看使用率" class="headerlink" title="查看使用率"></a>查看使用率</h3><ol>
 <li>vmstat</li>
@@ -1230,19 +1221,13 @@
         
           
             <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
-<blockquote>
 <p>最近失业了，有空学习并总结一下后端的知识点。用 flask 用的较多，所以随意写写 flask 的基础与拓展。</p>
 </blockquote>
-</blockquote>
 <h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><blockquote>
-<blockquote>
 <p>flask 框架是灵活性高一个中小型的 web 框架。采用 MTC 模式。说是这样说，但是 Model 都不是 flask 内置的。本身只内置了 jinja 模板语法，与可以编写指定路由的页面展示逻辑的函数。</p>
 </blockquote>
-</blockquote>
 <h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
-<blockquote>
 <p>路由中可以接受 int float 等类型</p>
-</blockquote>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/login'</span>, methods=[<span class="string">'POST'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'login'</span></span><br><span class="line"></span><br><span class="line">app.route(<span class="string">'/user/&lt;int: user_id&gt;'</span>, methods=[<span class="string">'GET'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile</span><span class="params">(username)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'user'</span></span><br></pre></td></tr></table></figure>
 
