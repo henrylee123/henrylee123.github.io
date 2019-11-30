@@ -47,14 +47,14 @@
 </script>
 
   <meta name="description" content="cache cache 主要作用缓解 cpu 与普通内存的速度差异。把频繁的寻址地址缓存在 cache 能够优化系统性能。   cache 有三级，一级比一级快。  buffer buffer 一定程度上减少对 i&#x2F;o 的设备访问次数。 比如，写入一个文件到磁盘中的时候，会先存一部分在 buffer 里，攒到一定量的时候再写回磁盘中。减少对此盘的访问次数  查看使用率 vmstat free to">
-<meta name="keywords" content="缓存,cache,buffer">
+<meta name="keywords" content="缓存">
 <meta property="og:type" content="article">
 <meta property="og:title" content="buffer cache 的区别">
 <meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;11&#x2F;28&#x2F;buffer%20%E4%B8%8E%20cache&#x2F;">
 <meta property="og:site_name" content="Henry 法克">
 <meta property="og:description" content="cache cache 主要作用缓解 cpu 与普通内存的速度差异。把频繁的寻址地址缓存在 cache 能够优化系统性能。   cache 有三级，一级比一级快。  buffer buffer 一定程度上减少对 i&#x2F;o 的设备访问次数。 比如，写入一个文件到磁盘中的时候，会先存一部分在 buffer 里，攒到一定量的时候再写回磁盘中。减少对此盘的访问次数  查看使用率 vmstat free to">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T14:54:13.276Z">
+<meta property="og:updated_time" content="2019-11-30T16:19:39.374Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/11/28/buffer%20%E4%B8%8E%20cache/">
@@ -216,8 +216,19 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-30 22:54:13" itemprop="dateModified" datetime="2019-11-30T22:54:13+08:00">2019-11-30</time>
+                <time title="Modified: 2019-12-01 00:19:39" itemprop="dateModified" datetime="2019-12-01T00:19:39+08:00">2019-12-01</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
 
           
 
@@ -254,8 +265,6 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E7%BC%93%E5%AD%98/" rel="tag"># 缓存</a>
-              <a href="/tags/cache/" rel="tag"># cache</a>
-              <a href="/tags/buffer/" rel="tag"># buffer</a>
           </div>
 
         
@@ -331,13 +340,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
