@@ -82,11 +82,11 @@
 <meta name="description" content="概述 三者都是 cpu 程序执行的时间段  进程 一个程序任务的开始到结束。进程  进程的切换 CPU 运行速度太快了，只有寄存器能够跟上它的速度。RAM 与 其他各种资源都无法跟上他的步伐。CPU 不可能干等着，为了保持它不断工作。所以有了进程的切换，进程们排着队，等着 cpu 临幸它们。   一般进程的切换步骤：保存当前进程的上下文，调入下一进程上下文（一些程序执行时用到缓存下来的值）。执行下">
 <meta property="og:type" content="article">
 <meta property="og:title" content="进程，线程，协程的区别">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;11&#x2F;30&#x2F;%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB&#x2F;index.html">
+<meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;11&#x2F;30&#x2F;%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB&#x2F;index.html">
 <meta property="og:site_name" content="Henrylee Blog">
 <meta property="og:description" content="概述 三者都是 cpu 程序执行的时间段  进程 一个程序任务的开始到结束。进程  进程的切换 CPU 运行速度太快了，只有寄存器能够跟上它的速度。RAM 与 其他各种资源都无法跟上他的步伐。CPU 不可能干等着，为了保持它不断工作。所以有了进程的切换，进程们排着队，等着 cpu 临幸它们。   一般进程的切换步骤：保存当前进程的上下文，调入下一进程上下文（一些程序执行时用到缓存下来的值）。执行下">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-11-30T11:47:03.126Z">
+<meta property="og:updated_time" content="2019-11-30T11:47:48.205Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,7 +117,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/11/30/进程，线程，协程的区别/"/>
+  <link rel="canonical" href="https://henrylee123.github.io/2019/11/30/进程，线程，协程的区别/"/>
 
 
 
@@ -230,10 +230,10 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/30/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">
+    <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/11/30/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
+      <meta itemprop="name" content="Henrylee">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
@@ -491,8 +491,8 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <p class="site-author-name" itemprop="name">John Doe</p>
-              <p class="site-description motion-element" itemprop="description">。。。。</p>
+              <p class="site-author-name" itemprop="name">Henrylee</p>
+              <p class="site-description motion-element" itemprop="description">alone and piece, perfect state to learn</p>
           </div>
 
           <nav class="site-state motion-element">
@@ -502,7 +502,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -515,7 +515,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -572,7 +572,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">Henrylee</span>
 
   
 </div>
