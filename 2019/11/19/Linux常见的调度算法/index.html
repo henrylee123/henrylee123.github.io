@@ -46,15 +46,15 @@
   };
 </script>
 
-  <meta name="description" content="进程调度算法 进程一经批准就会进入就绪队列等待唤醒，唤醒后开始 cpu 为该进程服务分配好的时间长度，进程的调度发生在就绪队列里。  1.先来先服务 根据等待队列的执行顺序来执行任务，是一种非抢占式服务   优：利于长作业及 cpu 繁忙的作业 劣：不利于短作业及 io 繁忙的作业  2.短作业优先调度算法 根据对任务预先执行时间对作业进行预估，短作业可以分配到更优先的资源   优：利于短作业 劣">
+  <meta name="description" content="调度算法一直记不住，一直搞不大清楚…今天其实也只是清楚了多一点">
 <meta name="keywords" content="进程,linux,调度算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux常见的调度算法">
 <meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;11&#x2F;19&#x2F;Linux%E5%B8%B8%E8%A7%81%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95&#x2F;">
 <meta property="og:site_name" content="Henry 法克">
-<meta property="og:description" content="进程调度算法 进程一经批准就会进入就绪队列等待唤醒，唤醒后开始 cpu 为该进程服务分配好的时间长度，进程的调度发生在就绪队列里。  1.先来先服务 根据等待队列的执行顺序来执行任务，是一种非抢占式服务   优：利于长作业及 cpu 繁忙的作业 劣：不利于短作业及 io 繁忙的作业  2.短作业优先调度算法 根据对任务预先执行时间对作业进行预估，短作业可以分配到更优先的资源   优：利于短作业 劣">
+<meta property="og:description" content="调度算法一直记不住，一直搞不大清楚…今天其实也只是清楚了多一点">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T16:21:53.269Z">
+<meta property="og:updated_time" content="2019-11-30T16:54:15.067Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/11/19/Linux%E5%B8%B8%E8%A7%81%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/">
@@ -216,7 +216,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 00:21:53" itemprop="dateModified" datetime="2019-12-01T00:21:53+08:00">2019-12-01</time>
+                <time title="Modified: 2019-12-01 00:54:15" itemprop="dateModified" datetime="2019-12-01T00:54:15+08:00">2019-12-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,7 +241,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h2><blockquote>
+        <p>调度算法一直记不住，一直搞不大清楚…今天其实也只是清楚了多一点</p>
+<a id="more"></a>
+
+<h2 id="进程调度算法"><a href="#进程调度算法" class="headerlink" title="进程调度算法"></a>进程调度算法</h2><blockquote>
 <p>进程一经批准就会进入<code>就绪队列</code>等待唤醒，唤醒后开始 cpu 为该进程服务分配好的时间长度，进程的调度发生在就绪队列里。</p>
 </blockquote>
 <h3 id="1-先来先服务"><a href="#1-先来先服务" class="headerlink" title="1.先来先服务"></a>1.先来先服务</h3><blockquote>
@@ -294,8 +297,8 @@
       <i class="fa fa-chevron-left"></i> Flask 小结
     </a></div>
       <div class="post-nav-item">
-    <a href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="buffer cache 的区别">
-      buffer cache 的区别 <i class="fa fa-chevron-right"></i>
+    <a href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="进程，线程，协程">
+      进程，线程，协程 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
