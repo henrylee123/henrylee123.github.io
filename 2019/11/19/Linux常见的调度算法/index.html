@@ -47,14 +47,14 @@
 </script>
 
   <meta name="description" content="进程调度算法 进程一经批准就会进入就绪队列等待唤醒，唤醒后开始 cpu 为该进程服务分配好的时间长度，进程的调度发生在就绪队列里。  1.先来先服务 根据等待队列的执行顺序来执行任务，是一种非抢占式服务   优：利于长作业及 cpu 繁忙的作业 劣：不利于短作业及 io 繁忙的作业  2.短作业优先调度算法 根据对任务预先执行时间对作业进行预估，短作业可以分配到更优先的资源   优：利于短作业 劣">
-<meta name="keywords" content="进程,linux,调度算法">
+<meta name="keywords" content="linux,进程,调度算法">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux常见的调度算法">
 <meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;11&#x2F;19&#x2F;Linux%E5%B8%B8%E8%A7%81%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95&#x2F;">
 <meta property="og:site_name" content="Henrylee Blog">
 <meta property="og:description" content="进程调度算法 进程一经批准就会进入就绪队列等待唤醒，唤醒后开始 cpu 为该进程服务分配好的时间长度，进程的调度发生在就绪队列里。  1.先来先服务 根据等待队列的执行顺序来执行任务，是一种非抢占式服务   优：利于长作业及 cpu 繁忙的作业 劣：不利于短作业及 io 繁忙的作业  2.短作业优先调度算法 根据对任务预先执行时间对作业进行预估，短作业可以分配到更优先的资源   优：利于短作业 劣">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T12:23:15.453Z">
+<meta property="og:updated_time" content="2019-11-30T14:53:43.918Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/11/19/Linux%E5%B8%B8%E8%A7%81%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/">
@@ -189,7 +189,7 @@
     <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/11/19/Linux%E5%B8%B8%E8%A7%81%E7%9A%84%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.jpeg">
       <meta itemprop="name" content="Henrylee">
       <meta itemprop="description" content="alone and piece, perfect state to learn">
     </span>
@@ -216,7 +216,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-11-30 20:23:15" itemprop="dateModified" datetime="2019-11-30T20:23:15+08:00">2019-11-30</time>
+                <time title="Modified: 2019-11-30 22:53:43" itemprop="dateModified" datetime="2019-11-30T22:53:43+08:00">2019-11-30</time>
               </span>
 
           
@@ -268,8 +268,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag"># 进程</a>
               <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag"># 进程</a>
               <a href="/tags/%E8%B0%83%E5%BA%A6%E7%AE%97%E6%B3%95/" rel="tag"># 调度算法</a>
           </div>
 
@@ -279,8 +279,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2019/11/14/linux%E5%91%BD%E4%BB%A4/" rel="prev" title="linux 常见命令">
-      <i class="fa fa-chevron-left"></i> linux 常见命令
+    <a href="/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/" rel="prev" title="Flask 小结">
+      <i class="fa fa-chevron-left"></i> Flask 小结
     </a></div>
       <div class="post-nav-item">
     <a href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" rel="next" title="buffer cache 的区别">
@@ -330,7 +330,7 @@
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="Henrylee"
-      src="/images/avatar.gif">
+      src="/images/avatar.jpeg">
   <p class="site-author-name" itemprop="name">Henrylee</p>
   <div class="site-description" itemprop="description">alone and piece, perfect state to learn</div>
 </div>
@@ -339,7 +339,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
