@@ -301,9 +301,16 @@
       
         
           
-            <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><p>‘<a href="https://app-cdn.2q10.com/api/v2/currency&#39;" target="_blank" rel="noopener">https://app-cdn.2q10.com/api/v2/currency&#39;</a> 汇率 api 能获取到实时汇率</p>
-<p>实现任何货币转换成人民币的接口 sdk<br>例如：<br>    $10,000.00 -&gt; CNY68,000.00</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+            <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><blockquote>
+<p>提供 api ‘<a href="https://app-cdn.2q10.com/api/v2/currency&#39;" target="_blank" rel="noopener">https://app-cdn.2q10.com/api/v2/currency&#39;</a> 能获取到实时汇率</p>
+</blockquote>
+<blockquote>
+<p>实现任何货币转换成人民币的接口 sdk</p>
+</blockquote>
+<ul>
+<li>例如：$10,000.00 -&gt; CNY68,000.00<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3></li>
+</ul>
+<ol>
 <li>内置一张符号标准化表</li>
 <li>汇率不可能实时获取，保存一个缓存在本地。超过10获取一次</li>
 <li>单例模式实现，减少消耗，从其他模块 import</li>
@@ -1151,6 +1158,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henrylee Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/" itemprop="url">Flask 小结</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-14T18:13:16+08:00">
+                2019-11-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
+<blockquote>
+<p>最近失业了，有空学习并总结一下后端的知识点。用 flask 用的较多，所以随意写写 flask 的基础与拓展。</p>
+</blockquote>
+</blockquote>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><blockquote>
+<blockquote>
+<p>flask 框架是灵活性高一个中小型的 web 框架。采用 MTC 模式。说是这样说，但是 Model 都不是 flask 内置的。本身只内置了 jinja 模板语法，与可以编写指定路由的页面展示逻辑的函数。</p>
+</blockquote>
+</blockquote>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
+<blockquote>
+<p>路由中可以接受 int float 等类型</p>
+</blockquote>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/login'</span>, methods=[<span class="string">'POST'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'login'</span></span><br><span class="line"></span><br><span class="line">app.route(<span class="string">'/user/&lt;int: user_id&gt;'</span>, methods=[<span class="string">'GET'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile</span><span class="params">(username)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'user'</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>已注册的路由可以由逻辑函数得到</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/get_user_list'</span>, methods=[<span class="string">'GET'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_user_list</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(login), <span class="number">302</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="路由并发"><a href="#路由并发" class="headerlink" title="路由并发"></a>路由并发</h4><blockquote>
+<p>启动 app.run() 的时候不开 mutil thread 或者 mutil process</p>
+</blockquote>
+<blockquote>
+<p>在一个路由函数里 time.sleep(1000) 另一个路由函数里 time.sleep(1)</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/test1'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'test1'</span></span><br><span class="line"></span><br><span class="line">app.route(<span class="string">'/test2'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'test2'</span></span><br></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>请求 test1 时阻塞了，但却可以访问 test2。单线程单进程启动的 app 怎么可以在程序阻塞时运行别的路由函数。flask 里面没有实现，但是 flask 基于 Werkzeug, Werkzeug 里实现了用户级的线程调度来调度线程，避免被阻塞。</p>
+</blockquote>
+<blockquote>
+<p>同时请求 test2 两次，两次返回的时间为 20 秒。判断第 2 次请求等待第一次请求完成才开始执行路由函数。所以，flask 开启的用户级线程数跟路由函数相关，同一路由函数不能同时应付两个请求。</p>
+</blockquote>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
+<p>开发时可以用 app.run(debug=1) 来开启调试模式。</p>
+</blockquote>
+<ul>
+<li>在线上启动的时候默认可以选择<ul>
+<li><code>默认（单线程）</code>  </li>
+<li><code>多线程</code> threaded=True</li>
+<li><code>多进程</code> processes=4</li>
+</ul>
+</li>
+</ul>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><blockquote>
+<p>Flask 自身实现的并发方法并不是最佳实践，故一般采用默认的启动模式。并发性能的问题交给 uwsgi 或 gunicorn 来并发启动 worker。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/linux%E5%91%BD%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1278,176 +1455,6 @@
 </li>
 </ol>
 <h4 id="cpu-利用率"><a href="#cpu-利用率" class="headerlink" title="cpu 利用率"></a>cpu 利用率</h4><p>top -bn 1 -i -c</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henrylee Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/" itemprop="url">Flask 小结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-14T18:13:16+08:00">
-                2019-11-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><blockquote>
-<blockquote>
-<p>最近失业了，有空学习并总结一下后端的知识点。用 flask 用的较多，所以随意写写 flask 的基础与拓展。</p>
-</blockquote>
-</blockquote>
-<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><blockquote>
-<blockquote>
-<p>flask 框架是灵活性高一个中小型的 web 框架。采用 MTC 模式。说是这样说，但是 Model 都不是 flask 内置的。本身只内置了 jinja 模板语法，与可以编写指定路由的页面展示逻辑的函数。</p>
-</blockquote>
-</blockquote>
-<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><blockquote>
-<blockquote>
-<p>路由中可以接受 int float 等类型</p>
-</blockquote>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/login'</span>, methods=[<span class="string">'POST'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'login'</span></span><br><span class="line"></span><br><span class="line">app.route(<span class="string">'/user/&lt;int: user_id&gt;'</span>, methods=[<span class="string">'GET'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">profile</span><span class="params">(username)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'user'</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>已注册的路由可以由逻辑函数得到</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/get_user_list'</span>, methods=[<span class="string">'GET'</span>])</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_user_list</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> redirect(url_for(login), <span class="number">302</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="路由并发"><a href="#路由并发" class="headerlink" title="路由并发"></a>路由并发</h4><blockquote>
-<p>启动 app.run() 的时候不开 mutil thread 或者 mutil process</p>
-</blockquote>
-<blockquote>
-<p>在一个路由函数里 time.sleep(1000) 另一个路由函数里 time.sleep(1)</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">app.route(<span class="string">'/test1'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'test1'</span></span><br><span class="line"></span><br><span class="line">app.route(<span class="string">'/test2'</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">()</span>:</span></span><br><span class="line">    time.sleep(<span class="number">10</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'test2'</span></span><br></pre></td></tr></table></figure>
-
-
-<blockquote>
-<p>请求 test1 时阻塞了，但却可以访问 test2。单线程单进程启动的 app 怎么可以在程序阻塞时运行别的路由函数。flask 里面没有实现，但是 flask 基于 Werkzeug, Werkzeug 里实现了用户级的线程调度来调度线程，避免被阻塞。</p>
-</blockquote>
-<blockquote>
-<p>同时请求 test2 两次，两次返回的时间为 20 秒。判断第 2 次请求等待第一次请求完成才开始执行路由函数。所以，flask 开启的用户级线程数跟路由函数相关，同一路由函数不能同时应付两个请求。</p>
-</blockquote>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><blockquote>
-<p>开发时可以用 app.run(debug=1) 来开启调试模式。</p>
-</blockquote>
-<ul>
-<li>在线上启动的时候默认可以选择<ul>
-<li><code>默认（单线程）</code>  </li>
-<li><code>多线程</code> threaded=True</li>
-<li><code>多进程</code> processes=4</li>
-</ul>
-</li>
-</ul>
-<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><blockquote>
-<p>Flask 自身实现的并发方法并不是最佳实践，故一般采用默认的启动模式。并发性能的问题交给 uwsgi 或 gunicorn 来并发启动 worker。</p>
-</blockquote>
 
           
         
