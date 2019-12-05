@@ -215,7 +215,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:24:02" itemprop="dateModified" datetime="2019-12-05T22:24:02+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 22:40:19" itemprop="dateModified" datetime="2019-12-05T22:40:19+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -240,45 +240,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="B-树-（B-树）"><a href="#B-树-（B-树）" class="headerlink" title="B 树 （B- 树）"></a>B 树 （B- 树）</h2><p><img src="images/BTree.png" alt=""></p>
-<p>一个 m 阶的 B 树定义如下：</p>
-<ol>
-<li>每个节点最多有 m 个孩子</li>
-<li>除根节点和叶子节点外，每个节点至少有 m/2 个孩子</li>
-<li>每个叶子节点都在同一层</li>
-<li>所有叶子节点都在同一层</li>
-<li>关键词的格数 n 满足 ceil(m/2)-1 &lt;= n &lt;= m-1 </li>
-<li>右子树的键值 &gt; 本节点键值 &gt; 左节点键值</li>
-</ol>
-<ul>
-<li>插入操作</li>
-</ul>
-<ol>
-<li>普通插入</li>
-</ol>
-<p><img src="images/B+normal_insert.gif" alt=""></p>
-<ol start="2">
-<li>插入后叶子节点元素超过阶数 m 分裂，中间元素塞入上一级节点</li>
-</ol>
-<p><img src="images/B+insert_split.gif" alt=""></p>
-<ol start="3">
-<li>插入后页子节点元素超过阶数 m 分裂后，中间元素塞入上一级节点，上级节点元素超过阶数 m</li>
-</ol>
-<p><img src="images/B+double_split_insert.gif" alt=""></p>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+ 树"></a>B+ 树</h2><p><img src="images/B+Tree.png" alt=""></p>
-<blockquote>
-<p>B 树上的非叶子节点存储的数据量比较小，叶子节点存储的数据也太少了。<br>不大适合在磁盘上使用该索引算法。磁盘的特点是 io 操作比较慢，所以需要的树深度必须要小一些。<br>B+ 树为 B 树的一种改进，为了适应磁盘的索引算法，</p>
-</blockquote>
-<p>与 B 树的不同在于：</p>
-<ol>
-<li>非叶子节点只存键值，数据只存在叶子节点。因为这样做可以使非叶子节点能存下更多的键使树的深度变小</li>
-<li>所有叶子节点奸都有一个链指针 （这里个人觉得也是为了适合磁盘的场景，有的数据可能就存在连续的几个磁盘块内，每次都从 root 开始太慢了）</li>
-</ol>
-<blockquote>
-<p>Mysql 的 Innode 存储引擎索引中用的就是 B+ 树。一个页（非叶子节点）的大小可调控默认为 16 kb。一般一个 page 可以存 1k 个键值。三层的 B+ 树索引就可以存储 10^9 (10亿) 条记录。</p>
-</blockquote>
-<h2 id="AVL"><a href="#AVL" class="headerlink" title="AVL"></a>AVL</h2><p>AVL 是二叉平衡查找树，查找，插入，删除的平均时间复杂度都为 O(log2(n))。</p>
-
+          <p>内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/02/%E6%A0%91%E7%AE%97%E6%B3%95/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -688,7 +658,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 20:39:17" itemprop="dateModified" datetime="2019-12-05T20:39:17+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 22:41:25" itemprop="dateModified" datetime="2019-12-05T22:41:25+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -713,170 +683,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="Mongodb-概述"><a href="#Mongodb-概述" class="headerlink" title="Mongodb 概述"></a>Mongodb 概述</h3><p>mongodb 属于菲关系型数据库，基于键值对存储。</p>
-<ul>
-<li>非关系型数据库优势</li>
-</ul>
-<ol>
-<li>性能</li>
-</ol>
-<p>nosql 不需要经过 sql 层的解析。性能较高</p>
-<ol start="2">
-<li>可拓展性</li>
-</ol>
-<p>数据直接没有耦合性所以容易水平拓展</p>
-<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>事务的概念 ACID</p>
-<h4 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h4><blockquote>
-<p>mongo 支持单文档的原子性，就是说。更新一个 doc 时操作是原子性的</p>
-</blockquote>
-<blockquote>
-<p>关系型数据库的则可以多行更新都为一个原子性操作。</p>
-</blockquote>
-<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><blockquote>
-<p>一般关系型数据库一致性主要在单机上，mongo 多为分布式节点。一致性的讨论在各节点的数据是否一致。<br>mongo 可以根据业务选择<code>强一致性</code> 或 <code>或弱一致性</code></p>
-</blockquote>
-<ul>
-<li>read-concern 读一致性</li>
-</ul>
-<p>read-concern 有好几种的级别</p>
-<ol>
-<li><p>local: 读取到任意数据（默认）</p>
-</li>
-<li><p>available</p>
-</li>
-</ol>
-<p>跟 local 差不多，在分片的时候才有区别</p>
-<ol start="3">
-<li>majority: 读取到大多数节点的数据(WiredTiger need)<br>开启参数：replication.enableMajorityReadConcern</li>
-</ol>
-<p><em>原理</em></p>
-<p><code>majority</code> 模式会起一个独立的线程 <code>snapshot</code>，周期性对当前的数据集进行 <code>snapshot</code>。并记录 <code>snapshot</code> 时最新的 oplog 时间戳。<br>当确认「oplog 已经同步到大多数 node」就把 state 更新为 commited</p>
-<table>
-<thead>
-<tr>
-<th>最新的 OPLOG 时间戳</th>
-<th>SNAPSHOT</th>
-<th>状态</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>t0</td>
-<td>snapshot0</td>
-<td>commited</td>
-</tr>
-<tr>
-<td>t1</td>
-<td>snapshot1</td>
-<td>uncommited</td>
-</tr>
-</tbody></table>
-<p><em>如何知道oplog同步到了大多数 node</em></p>
-<blockquote>
-<p>(1) secondary 节点会在 oplog 发生变化时通知 primary<br>(2) secondary 节点会在心跳检测的时候通知 primary 最新 oplog<br>(3) secondary 节点在拉取 oplog 的时候，会将 primary 上 snapshot 信息上的最新 <code>OPLOG时间戳</code> 同步到自身的 snapshot 信息上</p>
-</blockquote>
-<ol start="4">
-<li>linearizable </li>
-</ol>
-<p>在 majority 基础之上的一个更加安全的方案，就算检测到数据已经处于 majority 的状态，要检查这个 majority 里的节点是否失连。</p>
-<ul>
-<li>write-concert 写一致性</li>
-</ul>
-<p>跟读一致性差不多，写一致性是执行写操作的时候进行的，若没有达到预先定好的安全要求 response 是不会返回的。</p>
-<blockquote>
-<p>有三个参数控制 write-concert</p>
-</blockquote>
-<p>w: 确认写操作已经传播到了多少个 mongo 实例里<br>j: 确认写操作写到了 journal 日志里<br>witmeout: 防止达不到安全写请求无限阻塞的超时时间</p>
-<ol>
-<li>w (demand secondary num)</li>
-</ol>
-<p>可以自己定义 demand secondary 数，比如 w = 2 时，要求主节点与一个备节点都要写入才返回写 response，在 w 也可以设置 majority。</p>
-<ol start="2">
-<li>j</li>
-</ol>
-<p>说 journal 之前先说下 snapshots 和 checkpoint 和 journal 的关系。</p>
-<blockquote>
-<p>WiredTiger 学 Innodb 也搞 MVCC 版本控制。</p>
-</blockquote>
-<p>journal 的创建、删除: 在设置 j = 1 时会在每次写操作后把操作日志写到 journal。在 下次生成 checkpoint journal 会清空。</p>
-<p>checkpoint 的创建: 每隔 60 秒 或 日志文件达到 2GB 时(mongo3.6 后取消 2GB)，把内存中 snapshot 的文件同步到磁盘，并创建 checkpoint。</p>
-<ol start="3">
-<li>oplog 与 majority 的区别</li>
-</ol>
-<blockquote>
-<p>majority</p>
-</blockquote>
-<p>journal 是数据库引擎层的概念，是持久化数据的一种辅助机制。checkpoint 的时间间隔中出现宕机，两次chenckpoint 间的数据无法恢复。</p>
-<p>在开启 journal 后，每次写都会生成一个操作记录，在宕机后可以先用 checkpoint 恢复数据，再重放 journal 内的数据来恢复数据。</p>
-<blockquote>
-<p>oplog</p>
-</blockquote>
-<p>oplog 是在副本集的概念，一般用来同步 primary 与 secondary 的数据。</p>
-<blockquote>
-<p>一次原子性写操作流程</p>
-</blockquote>
-<p>修改数据、修改索引、生成 oplog 这三步，一步出问题则都不成功。这三步过后，如果设置了 journal 参数，则把这三步操作写入 journal 里。</p>
-<ul>
-<li>read-reference 偏好读</li>
-</ul>
-<blockquote>
-<p>  一个副本集有一个 primary 与多个 secondary 组成。primary 负责写操作，数据一定是最新的。<br>  secondary 通过 oplog 来同步写操作。数据有一定的延迟，可以在 secondary 节点查询减轻集群压力。    </p>
-</blockquote>
-<blockquote>
-<p><em>primary</em>: 默认模式，一切读操作都路由到 primary 节点。<br><em>primaryPreferred</em>: 正常的情况下路由到 primary 节点，只有当 primary 不可用时路由到 secondary 节点。<br><em>secondary</em>: 一切读操作都路由到 secondary 节点。<br><em>secondaryPreferred</em>: 正常情况下路由到 secondary 节点，只有当 secondary 不可用时路由到 primary 节点。<br><em>nearest</em>: 一视同仁，从最小网络延迟节点读取。</p>
-</blockquote>
-<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><p>在 ViredTiger 引擎里，一个写操作写进了日志里就是持久的。在副本集中，一个写操作写进了大多数 mongo 节点的日志里就是持久的。</p>
-<h3 id="Mongo-的锁"><a href="#Mongo-的锁" class="headerlink" title="Mongo 的锁"></a>Mongo 的锁</h3><ul>
-<li>查询 mongodb 中的 lock 情况</li>
-</ul>
-<ol>
-<li>db.serverStatus</li>
-<li>db.currentop</li>
-<li>mongotop</li>
-</ol>
-<ul>
-<li>读写锁</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>操作</th>
-<th>锁级别</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>查询</td>
-<td>读</td>
-</tr>
-<tr>
-<td>从 cursor 里 getMore</td>
-<td>读</td>
-</tr>
-<tr>
-<td>写数据</td>
-<td>写</td>
-</tr>
-<tr>
-<td>删除数据</td>
-<td>写</td>
-</tr>
-<tr>
-<td>更新数据</td>
-<td>写</td>
-</tr>
-<tr>
-<td>map-reduce</td>
-<td>读写</td>
-</tr>
-</tbody></table>
-<h3 id="Mongodb-迁移方案"><a href="#Mongodb-迁移方案" class="headerlink" title="Mongodb 迁移方案"></a>Mongodb 迁移方案</h3><ol>
-<li>mongodump，mongorestore</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h dbhost -d $(dbname) $(datadir)</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>mongorestore</li>
-</ol>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h $(dbhost) -d $(dbname) -directoryperdb $(dir)</span><br></pre></td></tr></table></figure>
+          <p>mongo 做为一个流行的 nosql 数据库跟 mysql 有什么区别呢？</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/01/mongodb%20%E9%9A%8F%E7%AC%94/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1151,6 +966,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Henry 法克">
+      <meta itemprop="description" content="after done myself I finally piece">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry 法克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">进程，线程，协程</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-28 23:11:11" itemprop="dateCreated datePublished" datetime="2019-11-28T23:11:11+08:00">2019-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-01 01:05:18" itemprop="dateModified" datetime="2019-12-01T01:05:18+08:00">2019-12-01</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="images/%E5%8D%8F%E7%A8%8B.png" alt=""></p>
+<p>协程是个啥，一直搞不大清楚…今天其实也只是清楚了多一点</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/11/28/buffer%20%E4%B8%8E%20cache/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1222,90 +1121,6 @@
 <li>top (进程排序 MEM %)</li>
 </ol>
 
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-        
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="Henry 法克">
-      <meta itemprop="description" content="after done myself I finally piece">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Henry 法克">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">进程，线程，协程</a>
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-28 23:11:11" itemprop="dateCreated datePublished" datetime="2019-11-28T23:11:11+08:00">2019-11-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 01:05:18" itemprop="dateModified" datetime="2019-12-01T01:05:18+08:00">2019-12-01</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
-                    <span itemprop="name">操作系统</span>
-                  </a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p><img src="images/%E5%8D%8F%E7%A8%8B.png" alt=""></p>
-<p>协程是个啥，一直搞不大清楚…今天其实也只是清楚了多一点</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/28/%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E5%8D%8F%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 

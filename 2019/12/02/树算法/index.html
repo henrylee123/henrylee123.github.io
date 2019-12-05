@@ -46,20 +46,20 @@
   };
 </script>
 
-  <meta name="description" content="B 树 （B- 树） 一个 m 阶的 B 树定义如下：  每个节点最多有 m 个孩子 除根节点和叶子节点外，每个节点至少有 m&#x2F;2 个孩子 每个叶子节点都在同一层 所有叶子节点都在同一层 关键词的格数 n 满足 ceil(m&#x2F;2)-1 &amp;lt;= n &amp;lt;= m-1  右子树的键值 &amp;gt; 本节点键值 &amp;gt; 左节点键值   插入操作   普通插入    插入后叶子节点元素超过阶数 m 分">
+  <meta name="description" content="内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…">
 <meta name="keywords" content="算法,树">
 <meta property="og:type" content="article">
 <meta property="og:title" content="树算法">
 <meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;">
 <meta property="og:site_name" content="Henry 法克">
-<meta property="og:description" content="B 树 （B- 树） 一个 m 阶的 B 树定义如下：  每个节点最多有 m 个孩子 除根节点和叶子节点外，每个节点至少有 m&#x2F;2 个孩子 每个叶子节点都在同一层 所有叶子节点都在同一层 关键词的格数 n 满足 ceil(m&#x2F;2)-1 &amp;lt;= n &amp;lt;= m-1  右子树的键值 &amp;gt; 本节点键值 &amp;gt; 左节点键值   插入操作   普通插入    插入后叶子节点元素超过阶数 m 分">
+<meta property="og:description" content="内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;BTree.png">
 <meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+normal_insert.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+insert_split.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+double_split_insert.gif">
 <meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+Tree.png">
-<meta property="og:updated_time" content="2019-12-05T14:24:02.129Z">
+<meta property="og:updated_time" content="2019-12-05T14:40:19.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;BTree.png">
 
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:24:02" itemprop="dateModified" datetime="2019-12-05T22:24:02+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 22:40:19" itemprop="dateModified" datetime="2019-12-05T22:40:19+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,7 +247,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="B-树-（B-树）"><a href="#B-树-（B-树）" class="headerlink" title="B 树 （B- 树）"></a>B 树 （B- 树）</h2><p><img src="images/BTree.png" alt=""></p>
+        <p>内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…</p>
+<a id="more"></a>
+<h2 id="B-树-（B-树）"><a href="#B-树-（B-树）" class="headerlink" title="B 树 （B- 树）"></a>B 树 （B- 树）</h2><p><img src="images/BTree.png" alt=""></p>
 <p>一个 m 阶的 B 树定义如下：</p>
 <ol>
 <li>每个节点最多有 m 个孩子</li>
@@ -285,6 +287,10 @@
 <p>Mysql 的 Innode 存储引擎索引中用的就是 B+ 树。一个页（非叶子节点）的大小可调控默认为 16 kb。一般一个 page 可以存 1k 个键值。三层的 B+ 树索引就可以存储 10^9 (10亿) 条记录。</p>
 </blockquote>
 <h2 id="AVL"><a href="#AVL" class="headerlink" title="AVL"></a>AVL</h2><p>AVL 是二叉平衡查找树，查找，插入，删除的平均时间复杂度都为 O(log2(n))。</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>这个树说是比 AVL 更好的树，java 的 hashmap 和 linux 内核上的算法都用到了他来实现。</p>
+<p>其实在性能上跟 AVL 树性能差不多。</p>
+<p>难度也是在平衡调整上，比 AVL 树多了颜色的改变</p>
+<p>红黑树的特点，插入，删除有点烦上个博客，别人写的比我还好<a href="https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/03.01.md" target="_blank" rel="noopener">教你透彻了解红黑树</a></p>
 
     </div>
 
@@ -345,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树-（B-树）"><span class="nav-number">1.</span> <span class="nav-text">B 树 （B- 树）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.</span> <span class="nav-text">B+ 树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AVL"><span class="nav-number">3.</span> <span class="nav-text">AVL</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树-（B-树）"><span class="nav-number">1.</span> <span class="nav-text">B 树 （B- 树）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">2.</span> <span class="nav-text">B+ 树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AVL"><span class="nav-number">3.</span> <span class="nav-text">AVL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">4.</span> <span class="nav-text">红黑树</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
