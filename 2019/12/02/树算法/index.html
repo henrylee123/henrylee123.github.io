@@ -54,14 +54,14 @@
 <meta property="og:site_name" content="Henry 法克">
 <meta property="og:description" content="内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;BTree.png">
-<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;normal_insert.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+insert_split.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+double_split_insert.gif">
-<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;B+Tree.png">
-<meta property="og:updated_time" content="2019-12-05T14:44:01.462Z">
+<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;BTree.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;normal_insert.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;insert_split.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;B+double_split_insert.gif">
+<meta property="og:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;B+Tree.png">
+<meta property="og:updated_time" content="2019-12-05T15:03:12.147Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;%E6%A0%91%E7%AE%97%E6%B3%95&#x2F;images&#x2F;BTree.png">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;images&#x2F;BTree.png">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/12/02/%E6%A0%91%E7%AE%97%E6%B3%95/">
 
@@ -222,7 +222,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:44:01" itemprop="dateModified" datetime="2019-12-05T22:44:01+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 23:03:12" itemprop="dateModified" datetime="2019-12-05T23:03:12+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -249,7 +249,7 @@
       
         <p>内存，外存的存储于查找都用到了树算法，今天主要来看看 B 树一组和 二叉树一组的算法…</p>
 <a id="more"></a>
-<h2 id="B-树-（B-树）"><a href="#B-树-（B-树）" class="headerlink" title="B 树 （B- 树）"></a>B 树 （B- 树）</h2><p><img src="images/BTree.png" alt=""></p>
+<h2 id="B-树-（B-树）"><a href="#B-树-（B-树）" class="headerlink" title="B 树 （B- 树）"></a>B 树 （B- 树）</h2><p><img src="/images/BTree.png" alt=""></p>
 <p>一个 m 阶的 B 树定义如下：</p>
 <ol>
 <li>每个节点最多有 m 个孩子</li>
@@ -265,16 +265,16 @@
 <ol>
 <li>普通插入</li>
 </ol>
-<p><img src="images/normal_insert.gif" alt=""></p>
+<p><img src="/images/normal_insert.gif" alt=""></p>
 <ol start="2">
 <li>插入后叶子节点元素超过阶数 m 分裂，中间元素塞入上一级节点</li>
 </ol>
-<p><img src="images/B+insert_split.gif" alt=""></p>
+<p><img src="/images/insert_split.gif" alt=""></p>
 <ol start="3">
 <li>插入后页子节点元素超过阶数 m 分裂后，中间元素塞入上一级节点，上级节点元素超过阶数 m</li>
 </ol>
-<p><img src="images/B+double_split_insert.gif" alt=""></p>
-<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+ 树"></a>B+ 树</h2><p><img src="images/B+Tree.png" alt=""></p>
+<p><img src="/images/B+double_split_insert.gif" alt=""></p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+ 树"></a>B+ 树</h2><p><img src="/images/B+Tree.png" alt=""></p>
 <blockquote>
 <p>B 树上的非叶子节点存储的数据量比较小，叶子节点存储的数据也太少了。<br>不大适合在磁盘上使用该索引算法。磁盘的特点是 io 操作比较慢，所以需要的树深度必须要小一些。<br>B+ 树为 B 树的一种改进，为了适应磁盘的索引算法，</p>
 </blockquote>

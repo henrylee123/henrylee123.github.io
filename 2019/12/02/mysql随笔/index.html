@@ -46,15 +46,15 @@
   };
 </script>
 
-  <meta name="description" content="mysql 中 myisam 与 innode 的区别 innodb 支持事务，MyISAM 不支持 innodb 支持行级锁，MyISAM 支持表级锁 Innode 支持 MVCC，MyISAM 不支持 Innode 支持外键，MyISAM 不支持 Innode 不支持全文索引，MyISAM 支持  MVCC 与 乐观锁多个用户&#x2F;线程&#x2F;进程对数据库进行操作时都会出现三种冲入情况  读 - 读：没">
+  <meta name="description" content="mysql 的锁有点复杂，今天我们来理一理，随便复习下别的机制…">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql 随笔">
 <meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;mysql%E9%9A%8F%E7%AC%94&#x2F;">
 <meta property="og:site_name" content="Henry 法克">
-<meta property="og:description" content="mysql 中 myisam 与 innode 的区别 innodb 支持事务，MyISAM 不支持 innodb 支持行级锁，MyISAM 支持表级锁 Innode 支持 MVCC，MyISAM 不支持 Innode 支持外键，MyISAM 不支持 Innode 不支持全文索引，MyISAM 支持  MVCC 与 乐观锁多个用户&#x2F;线程&#x2F;进程对数据库进行操作时都会出现三种冲入情况  读 - 读：没">
+<meta property="og:description" content="mysql 的锁有点复杂，今天我们来理一理，随便复习下别的机制…">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-05T14:22:08.443Z">
+<meta property="og:updated_time" content="2019-12-05T14:54:01.841Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/12/02/mysql%E9%9A%8F%E7%AC%94/">
@@ -216,7 +216,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:22:08" itemprop="dateModified" datetime="2019-12-05T22:22:08+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 22:54:01" itemprop="dateModified" datetime="2019-12-05T22:54:01+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,7 +241,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="mysql-中-myisam-与-innode-的区别"><a href="#mysql-中-myisam-与-innode-的区别" class="headerlink" title="mysql 中 myisam 与 innode 的区别"></a>mysql 中 myisam 与 innode 的区别</h3><ol>
+        <p>mysql 的锁有点复杂，今天我们来理一理，随便复习下别的机制…</p>
+<a id="more"></a>
+
+<h3 id="mysql-中-myisam-与-innode-的区别"><a href="#mysql-中-myisam-与-innode-的区别" class="headerlink" title="mysql 中 myisam 与 innode 的区别"></a>mysql 中 myisam 与 innode 的区别</h3><ol>
 <li>innodb 支持事务，MyISAM 不支持</li>
 <li>innodb 支持行级锁，MyISAM 支持表级锁</li>
 <li>Innode 支持 MVCC，MyISAM 不支持</li>

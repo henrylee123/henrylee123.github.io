@@ -215,7 +215,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:44:01" itemprop="dateModified" datetime="2019-12-05T22:44:01+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 23:03:12" itemprop="dateModified" datetime="2019-12-05T23:03:12+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -298,7 +298,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:22:08" itemprop="dateModified" datetime="2019-12-05T22:22:08+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-05 22:54:01" itemprop="dateModified" datetime="2019-12-05T22:54:01+08:00">2019-12-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -323,171 +323,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="mysql-中-myisam-与-innode-的区别"><a href="#mysql-中-myisam-与-innode-的区别" class="headerlink" title="mysql 中 myisam 与 innode 的区别"></a>mysql 中 myisam 与 innode 的区别</h3><ol>
-<li>innodb 支持事务，MyISAM 不支持</li>
-<li>innodb 支持行级锁，MyISAM 支持表级锁</li>
-<li>Innode 支持 MVCC，MyISAM 不支持</li>
-<li>Innode 支持外键，MyISAM 不支持</li>
-<li>Innode 不支持全文索引，MyISAM 支持</li>
-</ol>
-<h3 id="MVCC-与-乐观锁"><a href="#MVCC-与-乐观锁" class="headerlink" title="MVCC 与 乐观锁"></a>MVCC 与 乐观锁</h3><p>多个用户/线程/进程对数据库进行操作时都会出现三种冲入情况</p>
-<ol>
-<li>读 - 读：没啥冲突</li>
-<li>读 - 写：有隔离性问题，脏读（读到未提交数据），幻读（读已提交 insert），不可重复读 （读已提交 update delete）</li>
-<li>写 - 写：丢失更新</li>
-</ol>
-<p>MVCC 是用来解决 <code>读写</code> 问题的一种手段。为每个写操作保存一个版本。读操作读到最新的版本数据。</p>
-<p>乐观锁是<code>写写</code> 问题解决手段，在 commit 数据之前看看有没有新 commit 已经抢先提交，若是有则放弃本次 commit。</p>
-<h3 id="Mysql-的事务控制"><a href="#Mysql-的事务控制" class="headerlink" title="Mysql 的事务控制"></a>Mysql 的事务控制</h3><p>Mysql 有四种级别的事务隔离</p>
-<h5 id="READ-UNCOMMITTED"><a href="#READ-UNCOMMITTED" class="headerlink" title="READ-UNCOMMITTED"></a>READ-UNCOMMITTED</h5><p>读未提交，一般不用。不怎么加锁。以下读写问题都会有</p>
-<ul>
-<li>脏读</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>时间点</th>
-<th>用户A</th>
-<th>用户B</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>读 X 表 Y 行数据</td>
-<td></td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>X 表 Y 行 update 一条数据</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td>rollback</td>
-</tr>
-<tr>
-<td>4</td>
-<td>读 X 表 Y 行数据</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>1、4 两次 A 用户读到的数据不一致</p>
-<ul>
-<li>幻读</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>时间点</th>
-<th>用户A</th>
-<th>用户B</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>读 count(X) 表的数据</td>
-<td></td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>X 表 insert 或 delete 一条数据</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td>commit</td>
-</tr>
-<tr>
-<td>4</td>
-<td>读 count(X) 行的数据</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>1、4 两次 A 用户读到的数据 count num 不一致</p>
-<ul>
-<li>不可重复读</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>时间点</th>
-<th>用户A</th>
-<th>用户B</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1</td>
-<td>读 X 表 Y 行数据</td>
-<td></td>
-</tr>
-<tr>
-<td>2</td>
-<td></td>
-<td>X 表 Y 行 update 一条数据</td>
-</tr>
-<tr>
-<td>3</td>
-<td></td>
-<td>commit</td>
-</tr>
-<tr>
-<td>4</td>
-<td>读 X 表 Y 行数据</td>
-<td></td>
-</tr>
-</tbody></table>
-<p>1、4 两次 A 用户读到的数据不一致</p>
-<h5 id="READ-COMMITED"><a href="#READ-COMMITED" class="headerlink" title="READ-COMMITED"></a>READ-COMMITED</h5><p>读已提交，读数据不加锁。修改、写、删除数据加锁。所以会遇到和<code>脏读</code>和<code>不可重复读</code>。</p>
-<h5 id="REPEATABLE-READ"><a href="#REPEATABLE-READ" class="headerlink" title="REPEATABLE-READ"></a>REPEATABLE-READ</h5><p>可重复读，通过 MVCC 版本控制解决了 <code>不可重复读</code> 的问题。</p>
-<p><code>幻读</code>怎么解决呢？当前事务隔离级别采用了 Next-Key 锁。</p>
-<ul>
-<li>Next-Key</li>
-</ul>
-<p>next-key 锁是<code>行锁</code> 与 <code>GAP 锁</code> 的合并，行锁不用说了，GAP 锁又名 GAP 间隙锁。</p>
-<ul>
-<li>GAP 锁</li>
-</ul>
-<p>GAP 能锁住表级的新增。在表有索引的情况下锁住扫描过的数据。如 where a &gt; 2 and a &lt; 8， 就锁住[2, 8]区间不给 insert 新数据</p>
-<p>在这个级别的事务隔离上，可以对 <code>幻读</code> 有一定层度的预防</p>
-<p>详情可以看看这篇个详细的 blog :<a href="https://www.jianshu.com/p/13f5777966dd" target="_blank" rel="noopener">博客 mysql 加锁分析</a></p>
-<h5 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h5><p>完全的锁住</p>
-<h5 id="总结表格"><a href="#总结表格" class="headerlink" title="总结表格"></a>总结表格</h5><table>
-<thead>
-<tr>
-<th>隔离级别</th>
-<th>脏读</th>
-<th>不可重复读</th>
-<th>幻读</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>读未提交</td>
-<td>V</td>
-<td>V</td>
-<td>V</td>
-</tr>
-<tr>
-<td>读已提交</td>
-<td>X</td>
-<td>V</td>
-<td>V</td>
-</tr>
-<tr>
-<td>可重复读</td>
-<td>X</td>
-<td>X</td>
-<td>V</td>
-</tr>
-<tr>
-<td>序列化</td>
-<td>X</td>
-<td>X</td>
-<td>X</td>
-</tr>
-</tbody></table>
-
+          <p>mysql 的锁有点复杂，今天我们来理一理，随便复习下别的机制…</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/02/mysql%E9%9A%8F%E7%AC%94/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
