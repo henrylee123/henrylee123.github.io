@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="Henry 法克">
 <meta property="og:description" content="复习下 linux 的操作命令">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T16:52:04.542Z">
+<meta property="og:updated_time" content="2019-12-04T04:20:28.954Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/11/14/linux%E5%91%BD%E4%BB%A4/">
@@ -216,7 +216,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-01 00:52:04" itemprop="dateModified" datetime="2019-12-01T00:52:04+08:00">2019-12-01</time>
+                <time title="Modified: 2019-12-04 12:20:28" itemprop="dateModified" datetime="2019-12-04T12:20:28+08:00">2019-12-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -243,7 +243,7 @@
       
         <p>复习下 linux 的操作命令</p>
 <a id="more"></a>
-<h3 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h3><ol>
+<h3 id="常见命令"><a href="#常见命令" class="headerlink" title="常见命令"></a>常见命令</h3><ul>
 <li><p>cd<br>打开文件</p>
 </li>
 <li><p>ls -l -a<br>显示文件</p>
@@ -252,10 +252,27 @@
 </li>
 <li><p>find<br>查找文件</p>
 </li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">find -name "*.txt" -print  # 查找txt结尾的文件并输出到屏幕上 </span><br><span class="line">find /cmd ".sh" -print  # 查找/cmd目录下所有sh文件，并输出 </span><br><span class="line">find . -perm 755 -print  # 查找当前目录下权限为755的文件，并输出 </span><br><span class="line">find `pwd` -user root -print  # 查找当前目录下属主为root的文件，并输出 </span><br><span class="line">find ./ -group sunwill -print  # 查找当前目录下所属主是sunwill的文件 </span><br><span class="line">find /var -mtime -5 -print  # 查找/var目录下更改时间为5天内的所有文件 </span><br><span class="line">find /var -mtime +5 -print  # 查找/var目录下更改时间为5天以前的所有文件 </span><br><span class="line">find /var -newer "myfile1" ! -newer "myfile2" -print  # 查找/var目录下比myfile1新，但是比myfile2旧的所有文件。 </span><br><span class="line">find /var -type d -print  # 查找/var目录下所有目录 </span><br><span class="line">find /var -type l -print  # 查找/var目录下所有的符号链接文件。 </span><br><span class="line">find . -size +1000000c -print  # 查找当前目录下大于1000000字节的文件 </span><br><span class="line">find / -name "con.file" -depth -print  # 查找根目录下有无"con.file",若无则在其子目录中查找 </span><br><span class="line">find . -type f -exec ls -l &#123;&#125; \;  # 查找当前目录下是否有普通文件，若有则执行ls -l</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>xargs</li>
+</ul>
+<p>作为列标参数传给下个命令执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查找出来所有 out 文件，并授权</span></span><br><span class="line">find . -name 'out.*'| xargs chmod 777</span><br></pre></td></tr></table></figure>
+
+<ul>
 <li><p>mkdir<br>新建文件夹</p>
 </li>
 <li><p>rm<br>删除文件、文件夹</p>
 </li>
+</ul>
+<ol>
+<li>删除文件夹 <code>-r</code></li>
+<li>删除大批量文件 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm -f 2010-10-*.log 2010-09-*.log</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
 <li><p>cp<br>复制</p>
 </li>
 <li><p>mv<br>剪切</p>
@@ -266,6 +283,12 @@
 </li>
 <li><p>top<br>查看最进程详细信息</p>
 </li>
+</ul>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Processes: <span class="number">505</span> total, <span class="number">4</span> running, <span class="number">501</span> sleeping, <span class="number">3013</span> threads           <span class="number">17</span>:<span class="number">58</span>:<span class="number">50</span></span><br><span class="line">Load Avg: <span class="number">1.87</span>, <span class="number">1.54</span>, <span class="number">1.38</span>  CPU usage: <span class="number">2.13</span>% user, <span class="number">1.64</span>% sys, <span class="number">96.22</span>% idle</span><br><span class="line">SharedLibs: <span class="number">157</span>M resident, <span class="number">44</span>M data, <span class="number">14</span>M linkedit.</span><br><span class="line">MemRegions: <span class="number">311868</span> total, <span class="number">7536</span>M resident, <span class="number">120</span>M private, <span class="number">2262</span>M shared.</span><br><span class="line">PhysMem: <span class="number">15</span>G used (<span class="number">5386</span>M wired), <span class="number">1084</span>M unused.</span><br><span class="line">VM: <span class="number">3329</span>G vsize, <span class="number">1373</span>M framework vsize, <span class="number">53319421</span>(<span class="number">64</span>) swapins, <span class="number">56427608</span>(<span class="number">0</span>) swapo</span><br><span class="line">Networks: packets: <span class="number">170511393</span>/<span class="number">187</span>G <span class="keyword">in</span>, <span class="number">140555326</span>/<span class="number">23</span>G out.</span><br><span class="line">Disks: <span class="number">12146355</span>/<span class="number">365</span>G read, <span class="number">47151956</span>/<span class="number">2018</span>G written.</span><br><span class="line"></span><br><span class="line">PID    COMMAND      %CPU TIME     <span class="comment">#TH    #WQ  #PORTS MEM    PURG   CMPRS  PGRP</span></span><br><span class="line"><span class="number">92567</span>  top          <span class="number">5.4</span>  <span class="number">00</span>:<span class="number">01.18</span> <span class="number">1</span>/<span class="number">1</span>    <span class="number">0</span>    <span class="number">25</span>     <span class="number">8104</span>K+ <span class="number">0</span>B     <span class="number">0</span>B     <span class="number">92567</span></span><br><span class="line"><span class="number">92493</span>  CFNetworkAge <span class="number">0.0</span>  <span class="number">00</span>:<span class="number">00.17</span> <span class="number">3</span>      <span class="number">2</span>    <span class="number">40</span>     <span class="number">10</span>M    <span class="number">0</span>B     <span class="number">0</span>B     <span class="number">92493</span></span><br><span class="line"><span class="number">92486</span>  ocspd        <span class="number">0.0</span>  <span class="number">00</span>:<span class="number">00.01</span> <span class="number">2</span>      <span class="number">1</span>    <span class="number">35</span>     <span class="number">1596</span>K  <span class="number">0</span>B     <span class="number">0</span>B     <span class="number">92486</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Load Avg 可以判断出系统健康，一般为 1 左右是健康的。<br>第四行是看内存的使用量</p>
+</blockquote>
+<ul>
 <li><p>kill<br>杀死进程</p>
 </li>
 <li><p>tar<br>解压</p>
@@ -274,13 +297,24 @@
 </li>
 <li><p>chown<br>更爱文件拥有用户<br>chown -R henrylee:users *</p>
 </li>
-<li><p>tail<br>-f 查看正在改变的日志<br>-3000 倒数3000行数据 | grep ‘A’</p>
+<li><p>tail<br>  -f 查看正在改变的日志<br>  -3000 倒数3000行数据 | grep ‘A’</p>
 </li>
 <li><p>nohup &amp;</p>
 </li>
+</ul>
+<ol>
+<li>启动后台进程: command &amp;</li>
 </ol>
-<p>启动后台进程: command &amp;<br>挂起进程: </p>
-<ol start="18">
+<p>输出一样会 print 到屏幕上。</p>
+<ol start="2">
+<li>挂起进程: nohup command</li>
+</ol>
+<ul>
+<li>2&gt;1</li>
+</ul>
+<p>这是一个奇怪的命令</p>
+<p><code>ls 2&gt;1</code> 输出一个空文件 1<br><code>ls xxx 2&gt;1</code> 没有xxx的错误信息输出到了 1<br><code>ls xxx 2&gt;&amp;1</code> 输出方式变为标准输出 -&gt; 命令行 print 了出来<br><code>ls xxx &gt; out.txt 2&gt;&amp;1</code> 标注输出变为了输出到 out.txt。所以错误输出到了标准输出 out.txt 里面</p>
+<ul>
 <li><p>cat<br>查看文件</p>
 </li>
 <li><p>vim/vi<br>编辑器</p>
@@ -289,8 +323,19 @@
 </li>
 <li><p>ifconfig<br>网络连接信息</p>
 </li>
-</ol>
-<h4 id="内存利用率"><a href="#内存利用率" class="headerlink" title="内存利用率"></a>内存利用率</h4><ol>
+<li><p>df -h</p>
+</li>
+</ul>
+<p>磁盘使用率 100%</p>
+<pre><code class="shell">udev            2.0G     0  2.0G   0% /dev
+tmpfs           395M  716K  394M   1% /run
+/dev/sda1        31G   31G     0 100% /
+tmpfs           2.0G     0  2.0G   0% /dev/shm
+tmpfs           5.0M     0  5.0M   0% /run/lock</code></pre>
+<ul>
+<li><h4 id="内存利用率"><a href="#内存利用率" class="headerlink" title="内存利用率"></a>内存利用率</h4></li>
+</ul>
+<ol>
 <li><p>top 10 进程内存利用率<br>ps auxw|head -1;ps auxw|sort -rn -k5|head -10</p>
 </li>
 <li><p>内存利用率<br>vmstat</p>
@@ -316,10 +361,7 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2019/11/14/mysql%20%E4%B8%BB%E4%BB%8E%EF%BC%8C%E4%B8%8E%E8%AF%BB%E5%86%99%E5%88%86%E7%A6%BB/" rel="prev" title="mysql 主从、读写分离">
-      <i class="fa fa-chevron-left"></i> mysql 主从、读写分离
-    </a></div>
+      <div class="post-nav-item"></div>
       <div class="post-nav-item">
     <a href="/2019/11/14/flask%20%E5%B0%8F%E7%BB%93/" rel="next" title="Flask 小结">
       Flask 小结 <i class="fa fa-chevron-right"></i>
@@ -377,20 +419,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

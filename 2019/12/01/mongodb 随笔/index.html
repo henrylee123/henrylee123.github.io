@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://henrylee123.github.io').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="Mongodb 概述mongodb 属于菲关系型数据库，基于键值对存储。  非关系型数据库优势   性能  nosql 不需要经过 sql 层的解析。性能较高  可拓展性  数据直接没有耦合性所以容易水平拓展 事务事务的概念 ACID 原子性 mongo 支持单文档的原子性，就是说。更新一个 doc 时操作是原子性的   关系型数据库的则可以多行更新都为一个原子性操作。  一致性 一般关系型数据库">
+<meta name="keywords" content="mongodb">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mongodb 随笔">
+<meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;01&#x2F;mongodb%20%E9%9A%8F%E7%AC%94&#x2F;">
+<meta property="og:site_name" content="Henry 法克">
+<meta property="og:description" content="Mongodb 概述mongodb 属于菲关系型数据库，基于键值对存储。  非关系型数据库优势   性能  nosql 不需要经过 sql 层的解析。性能较高  可拓展性  数据直接没有耦合性所以容易水平拓展 事务事务的概念 ACID 原子性 mongo 支持单文档的原子性，就是说。更新一个 doc 时操作是原子性的   关系型数据库的则可以多行更新都为一个原子性操作。  一致性 一般关系型数据库">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-05T12:39:17.820Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://henrylee123.github.io/2019/12/01/mongodb%20%E9%9A%8F%E7%AC%94/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mongodb 随笔 | Henry 法克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Henry 法克</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">法克的博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/12/01/mongodb%20%E9%9A%8F%E7%AC%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Henry 法克">
+      <meta itemprop="description" content="after done myself I finally piece">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry 法克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mongodb 随笔
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-01 14:16:32" itemprop="dateCreated datePublished" datetime="2019-12-01T14:16:32+08:00">2019-12-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-05 20:39:17" itemprop="dateModified" datetime="2019-12-05T20:39:17+08:00">2019-12-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Mongodb-概述"><a href="#Mongodb-概述" class="headerlink" title="Mongodb 概述"></a>Mongodb 概述</h3><p>mongodb 属于菲关系型数据库，基于键值对存储。</p>
+<ul>
+<li>非关系型数据库优势</li>
+</ul>
+<ol>
+<li>性能</li>
+</ol>
+<p>nosql 不需要经过 sql 层的解析。性能较高</p>
+<ol start="2">
+<li>可拓展性</li>
+</ol>
+<p>数据直接没有耦合性所以容易水平拓展</p>
+<h3 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h3><p>事务的概念 ACID</p>
+<h4 id="原子性"><a href="#原子性" class="headerlink" title="原子性"></a>原子性</h4><blockquote>
+<p>mongo 支持单文档的原子性，就是说。更新一个 doc 时操作是原子性的</p>
+</blockquote>
+<blockquote>
+<p>关系型数据库的则可以多行更新都为一个原子性操作。</p>
+</blockquote>
+<h4 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h4><blockquote>
+<p>一般关系型数据库一致性主要在单机上，mongo 多为分布式节点。一致性的讨论在各节点的数据是否一致。<br>mongo 可以根据业务选择<code>强一致性</code> 或 <code>或弱一致性</code></p>
+</blockquote>
+<ul>
+<li>read-concern 读一致性</li>
+</ul>
+<p>read-concern 有好几种的级别</p>
+<ol>
+<li><p>local: 读取到任意数据（默认）</p>
+</li>
+<li><p>available</p>
+</li>
+</ol>
+<p>跟 local 差不多，在分片的时候才有区别</p>
+<ol start="3">
+<li>majority: 读取到大多数节点的数据(WiredTiger need)<br>开启参数：replication.enableMajorityReadConcern</li>
+</ol>
+<p><em>原理</em></p>
+<p><code>majority</code> 模式会起一个独立的线程 <code>snapshot</code>，周期性对当前的数据集进行 <code>snapshot</code>。并记录 <code>snapshot</code> 时最新的 oplog 时间戳。<br>当确认「oplog 已经同步到大多数 node」就把 state 更新为 commited</p>
+<table>
+<thead>
+<tr>
+<th>最新的 OPLOG 时间戳</th>
+<th>SNAPSHOT</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>t0</td>
+<td>snapshot0</td>
+<td>commited</td>
+</tr>
+<tr>
+<td>t1</td>
+<td>snapshot1</td>
+<td>uncommited</td>
+</tr>
+</tbody></table>
+<p><em>如何知道oplog同步到了大多数 node</em></p>
+<blockquote>
+<p>(1) secondary 节点会在 oplog 发生变化时通知 primary<br>(2) secondary 节点会在心跳检测的时候通知 primary 最新 oplog<br>(3) secondary 节点在拉取 oplog 的时候，会将 primary 上 snapshot 信息上的最新 <code>OPLOG时间戳</code> 同步到自身的 snapshot 信息上</p>
+</blockquote>
+<ol start="4">
+<li>linearizable </li>
+</ol>
+<p>在 majority 基础之上的一个更加安全的方案，就算检测到数据已经处于 majority 的状态，要检查这个 majority 里的节点是否失连。</p>
+<ul>
+<li>write-concert 写一致性</li>
+</ul>
+<p>跟读一致性差不多，写一致性是执行写操作的时候进行的，若没有达到预先定好的安全要求 response 是不会返回的。</p>
+<blockquote>
+<p>有三个参数控制 write-concert</p>
+</blockquote>
+<p>w: 确认写操作已经传播到了多少个 mongo 实例里<br>j: 确认写操作写到了 journal 日志里<br>witmeout: 防止达不到安全写请求无限阻塞的超时时间</p>
+<ol>
+<li>w (demand secondary num)</li>
+</ol>
+<p>可以自己定义 demand secondary 数，比如 w = 2 时，要求主节点与一个备节点都要写入才返回写 response，在 w 也可以设置 majority。</p>
+<ol start="2">
+<li>j</li>
+</ol>
+<p>说 journal 之前先说下 snapshots 和 checkpoint 和 journal 的关系。</p>
+<blockquote>
+<p>WiredTiger 学 Innodb 也搞 MVCC 版本控制。</p>
+</blockquote>
+<p>journal 的创建、删除: 在设置 j = 1 时会在每次写操作后把操作日志写到 journal。在 下次生成 checkpoint journal 会清空。</p>
+<p>checkpoint 的创建: 每隔 60 秒 或 日志文件达到 2GB 时(mongo3.6 后取消 2GB)，把内存中 snapshot 的文件同步到磁盘，并创建 checkpoint。</p>
+<ol start="3">
+<li>oplog 与 majority 的区别</li>
+</ol>
+<blockquote>
+<p>majority</p>
+</blockquote>
+<p>journal 是数据库引擎层的概念，是持久化数据的一种辅助机制。checkpoint 的时间间隔中出现宕机，两次chenckpoint 间的数据无法恢复。</p>
+<p>在开启 journal 后，每次写都会生成一个操作记录，在宕机后可以先用 checkpoint 恢复数据，再重放 journal 内的数据来恢复数据。</p>
+<blockquote>
+<p>oplog</p>
+</blockquote>
+<p>oplog 是在副本集的概念，一般用来同步 primary 与 secondary 的数据。</p>
+<blockquote>
+<p>一次原子性写操作流程</p>
+</blockquote>
+<p>修改数据、修改索引、生成 oplog 这三步，一步出问题则都不成功。这三步过后，如果设置了 journal 参数，则把这三步操作写入 journal 里。</p>
+<ul>
+<li>read-reference 偏好读</li>
+</ul>
+<blockquote>
+<p>  一个副本集有一个 primary 与多个 secondary 组成。primary 负责写操作，数据一定是最新的。<br>  secondary 通过 oplog 来同步写操作。数据有一定的延迟，可以在 secondary 节点查询减轻集群压力。    </p>
+</blockquote>
+<blockquote>
+<p><em>primary</em>: 默认模式，一切读操作都路由到 primary 节点。<br><em>primaryPreferred</em>: 正常的情况下路由到 primary 节点，只有当 primary 不可用时路由到 secondary 节点。<br><em>secondary</em>: 一切读操作都路由到 secondary 节点。<br><em>secondaryPreferred</em>: 正常情况下路由到 secondary 节点，只有当 secondary 不可用时路由到 primary 节点。<br><em>nearest</em>: 一视同仁，从最小网络延迟节点读取。</p>
+</blockquote>
+<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><p>在 ViredTiger 引擎里，一个写操作写进了日志里就是持久的。在副本集中，一个写操作写进了大多数 mongo 节点的日志里就是持久的。</p>
+<h3 id="Mongo-的锁"><a href="#Mongo-的锁" class="headerlink" title="Mongo 的锁"></a>Mongo 的锁</h3><ul>
+<li>查询 mongodb 中的 lock 情况</li>
+</ul>
+<ol>
+<li>db.serverStatus</li>
+<li>db.currentop</li>
+<li>mongotop</li>
+</ol>
+<ul>
+<li>读写锁</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>锁级别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查询</td>
+<td>读</td>
+</tr>
+<tr>
+<td>从 cursor 里 getMore</td>
+<td>读</td>
+</tr>
+<tr>
+<td>写数据</td>
+<td>写</td>
+</tr>
+<tr>
+<td>删除数据</td>
+<td>写</td>
+</tr>
+<tr>
+<td>更新数据</td>
+<td>写</td>
+</tr>
+<tr>
+<td>map-reduce</td>
+<td>读写</td>
+</tr>
+</tbody></table>
+<h3 id="Mongodb-迁移方案"><a href="#Mongodb-迁移方案" class="headerlink" title="Mongodb 迁移方案"></a>Mongodb 迁移方案</h3><ol>
+<li>mongodump，mongorestore</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongodump -h dbhost -d $(dbname) $(datadir)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>mongorestore</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h $(dbhost) -d $(dbname) -directoryperdb $(dir)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mongodb/" rel="tag"># mongodb</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/30/python%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%B1%87%E7%8E%87%E8%BD%AC%E6%8D%A2%E6%8E%A5%E5%8F%A3/" rel="prev" title="python3 汇率转换接口">
+      <i class="fa fa-chevron-left"></i> python3 汇率转换接口
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/02/linux%E7%94%A8%E6%88%B7%E4%B8%8E%E7%94%A8%E6%88%B7%E7%BB%84/" rel="next" title="linux用户与用户组">
+      linux用户与用户组 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-概述"><span class="nav-number">1.</span> <span class="nav-text">Mongodb 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">2.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性"><span class="nav-number">2.1.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性"><span class="nav-number">2.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性"><span class="nav-number">2.3.</span> <span class="nav-text">隔离性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性"><span class="nav-number">2.4.</span> <span class="nav-text">持久性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongo-的锁"><span class="nav-number">3.</span> <span class="nav-text">Mongo 的锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-迁移方案"><span class="nav-number">4.</span> <span class="nav-text">Mongodb 迁移方案</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Henry 法克"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Henry 法克</p>
+  <div class="site-description" itemprop="description">after done myself I finally piece</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henrylee123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henrylee123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/henrylee86123@gmail.com" title="E-Mail → henrylee86123@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      博客镜像 & 友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://tankeryang.github.io/" title="https:&#x2F;&#x2F;tankeryang.github.io" rel="noopener" target="_blank">淦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://deeeeeeeee.github.io/" title="https:&#x2F;&#x2F;deeeeeeeee.github.io" rel="noopener" target="_blank">de</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-henrylee"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Henry 法克</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

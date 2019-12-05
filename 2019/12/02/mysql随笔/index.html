@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/head.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/head.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://henrylee123.github.io').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="mysql 中 myisam 与 innode 的区别 innodb 支持事务，MyISAM 不支持 innodb 支持行级锁，MyISAM 支持表级锁 Innode 支持 MVCC，MyISAM 不支持 Innode 支持外键，MyISAM 不支持 Innode 不支持全文索引，MyISAM 支持  MVCC 与 乐观锁多个用户&#x2F;线程&#x2F;进程对数据库进行操作时都会出现三种冲入情况  读 - 读：没">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql 随笔">
+<meta property="og:url" content="https:&#x2F;&#x2F;henrylee123.github.io&#x2F;2019&#x2F;12&#x2F;02&#x2F;mysql%E9%9A%8F%E7%AC%94&#x2F;">
+<meta property="og:site_name" content="Henry 法克">
+<meta property="og:description" content="mysql 中 myisam 与 innode 的区别 innodb 支持事务，MyISAM 不支持 innodb 支持行级锁，MyISAM 支持表级锁 Innode 支持 MVCC，MyISAM 不支持 Innode 支持外键，MyISAM 不支持 Innode 不支持全文索引，MyISAM 支持  MVCC 与 乐观锁多个用户&#x2F;线程&#x2F;进程对数据库进行操作时都会出现三种冲入情况  读 - 读：没">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-05T14:22:08.443Z">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://henrylee123.github.io/2019/12/02/mysql%E9%9A%8F%E7%AC%94/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mysql 随笔 | Henry 法克</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Henry 法克</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">法克的博客</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://henrylee123.github.io/2019/12/02/mysql%E9%9A%8F%E7%AC%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="Henry 法克">
+      <meta itemprop="description" content="after done myself I finally piece">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Henry 法克">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          mysql 随笔
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-02 18:13:16" itemprop="dateCreated datePublished" datetime="2019-12-02T18:13:16+08:00">2019-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-12-05 22:22:08" itemprop="dateModified" datetime="2019-12-05T22:22:08+08:00">2019-12-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="mysql-中-myisam-与-innode-的区别"><a href="#mysql-中-myisam-与-innode-的区别" class="headerlink" title="mysql 中 myisam 与 innode 的区别"></a>mysql 中 myisam 与 innode 的区别</h3><ol>
+<li>innodb 支持事务，MyISAM 不支持</li>
+<li>innodb 支持行级锁，MyISAM 支持表级锁</li>
+<li>Innode 支持 MVCC，MyISAM 不支持</li>
+<li>Innode 支持外键，MyISAM 不支持</li>
+<li>Innode 不支持全文索引，MyISAM 支持</li>
+</ol>
+<h3 id="MVCC-与-乐观锁"><a href="#MVCC-与-乐观锁" class="headerlink" title="MVCC 与 乐观锁"></a>MVCC 与 乐观锁</h3><p>多个用户/线程/进程对数据库进行操作时都会出现三种冲入情况</p>
+<ol>
+<li>读 - 读：没啥冲突</li>
+<li>读 - 写：有隔离性问题，脏读（读到未提交数据），幻读（读已提交 insert），不可重复读 （读已提交 update delete）</li>
+<li>写 - 写：丢失更新</li>
+</ol>
+<p>MVCC 是用来解决 <code>读写</code> 问题的一种手段。为每个写操作保存一个版本。读操作读到最新的版本数据。</p>
+<p>乐观锁是<code>写写</code> 问题解决手段，在 commit 数据之前看看有没有新 commit 已经抢先提交，若是有则放弃本次 commit。</p>
+<h3 id="Mysql-的事务控制"><a href="#Mysql-的事务控制" class="headerlink" title="Mysql 的事务控制"></a>Mysql 的事务控制</h3><p>Mysql 有四种级别的事务隔离</p>
+<h5 id="READ-UNCOMMITTED"><a href="#READ-UNCOMMITTED" class="headerlink" title="READ-UNCOMMITTED"></a>READ-UNCOMMITTED</h5><p>读未提交，一般不用。不怎么加锁。以下读写问题都会有</p>
+<ul>
+<li>脏读</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>时间点</th>
+<th>用户A</th>
+<th>用户B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>读 X 表 Y 行数据</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>X 表 Y 行 update 一条数据</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>rollback</td>
+</tr>
+<tr>
+<td>4</td>
+<td>读 X 表 Y 行数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>1、4 两次 A 用户读到的数据不一致</p>
+<ul>
+<li>幻读</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>时间点</th>
+<th>用户A</th>
+<th>用户B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>读 count(X) 表的数据</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>X 表 insert 或 delete 一条数据</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>commit</td>
+</tr>
+<tr>
+<td>4</td>
+<td>读 count(X) 行的数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>1、4 两次 A 用户读到的数据 count num 不一致</p>
+<ul>
+<li>不可重复读</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>时间点</th>
+<th>用户A</th>
+<th>用户B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>读 X 表 Y 行数据</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td></td>
+<td>X 表 Y 行 update 一条数据</td>
+</tr>
+<tr>
+<td>3</td>
+<td></td>
+<td>commit</td>
+</tr>
+<tr>
+<td>4</td>
+<td>读 X 表 Y 行数据</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>1、4 两次 A 用户读到的数据不一致</p>
+<h5 id="READ-COMMITED"><a href="#READ-COMMITED" class="headerlink" title="READ-COMMITED"></a>READ-COMMITED</h5><p>读已提交，读数据不加锁。修改、写、删除数据加锁。所以会遇到和<code>脏读</code>和<code>不可重复读</code>。</p>
+<h5 id="REPEATABLE-READ"><a href="#REPEATABLE-READ" class="headerlink" title="REPEATABLE-READ"></a>REPEATABLE-READ</h5><p>可重复读，通过 MVCC 版本控制解决了 <code>不可重复读</code> 的问题。</p>
+<p><code>幻读</code>怎么解决呢？当前事务隔离级别采用了 Next-Key 锁。</p>
+<ul>
+<li>Next-Key</li>
+</ul>
+<p>next-key 锁是<code>行锁</code> 与 <code>GAP 锁</code> 的合并，行锁不用说了，GAP 锁又名 GAP 间隙锁。</p>
+<ul>
+<li>GAP 锁</li>
+</ul>
+<p>GAP 能锁住表级的新增。在表有索引的情况下锁住扫描过的数据。如 where a &gt; 2 and a &lt; 8， 就锁住[2, 8]区间不给 insert 新数据</p>
+<p>在这个级别的事务隔离上，可以对 <code>幻读</code> 有一定层度的预防</p>
+<p>详情可以看看这篇个详细的 blog :<a href="https://www.jianshu.com/p/13f5777966dd" target="_blank" rel="noopener">博客 mysql 加锁分析</a></p>
+<h5 id="SERIALIZABLE"><a href="#SERIALIZABLE" class="headerlink" title="SERIALIZABLE"></a>SERIALIZABLE</h5><p>完全的锁住</p>
+<h5 id="总结表格"><a href="#总结表格" class="headerlink" title="总结表格"></a>总结表格</h5><table>
+<thead>
+<tr>
+<th>隔离级别</th>
+<th>脏读</th>
+<th>不可重复读</th>
+<th>幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>读未提交</td>
+<td>V</td>
+<td>V</td>
+<td>V</td>
+</tr>
+<tr>
+<td>读已提交</td>
+<td>X</td>
+<td>V</td>
+<td>V</td>
+</tr>
+<tr>
+<td>可重复读</td>
+<td>X</td>
+<td>X</td>
+<td>V</td>
+</tr>
+<tr>
+<td>序列化</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/02/linux%E7%94%A8%E6%88%B7%E4%B8%8E%E7%94%A8%E6%88%B7%E7%BB%84/" rel="prev" title="linux用户与用户组">
+      <i class="fa fa-chevron-left"></i> linux用户与用户组
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/02/%E6%A0%91%E7%AE%97%E6%B3%95/" rel="next" title="树算法">
+      树算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql-中-myisam-与-innode-的区别"><span class="nav-number">1.</span> <span class="nav-text">mysql 中 myisam 与 innode 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MVCC-与-乐观锁"><span class="nav-number">2.</span> <span class="nav-text">MVCC 与 乐观锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql-的事务控制"><span class="nav-number">3.</span> <span class="nav-text">Mysql 的事务控制</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-UNCOMMITTED"><span class="nav-number">3.0.1.</span> <span class="nav-text">READ-UNCOMMITTED</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#READ-COMMITED"><span class="nav-number">3.0.2.</span> <span class="nav-text">READ-COMMITED</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#REPEATABLE-READ"><span class="nav-number">3.0.3.</span> <span class="nav-text">REPEATABLE-READ</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SERIALIZABLE"><span class="nav-number">3.0.4.</span> <span class="nav-text">SERIALIZABLE</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结表格"><span class="nav-number">3.0.5.</span> <span class="nav-text">总结表格</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Henry 法克"
+      src="/images/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">Henry 法克</p>
+  <div class="site-description" itemprop="description">after done myself I finally piece</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/henrylee123" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;henrylee123" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/henrylee86123@gmail.com" title="E-Mail → henrylee86123@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title">
+      <i class="fa fa-fw fa-link"></i>
+      博客镜像 & 友情链接
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://tankeryang.github.io/" title="https:&#x2F;&#x2F;tankeryang.github.io" rel="noopener" target="_blank">淦</a>
+        </li>
+        <li class="links-of-blogroll-item">
+          <a href="https://deeeeeeeee.github.io/" title="https:&#x2F;&#x2F;deeeeeeeee.github.io" rel="noopener" target="_blank">de</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-henrylee"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Henry 法克</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v4.0.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.5.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
