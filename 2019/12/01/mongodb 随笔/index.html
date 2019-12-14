@@ -54,7 +54,7 @@
 <meta property="og:site_name" content="Henry 法克">
 <meta property="og:description" content="mongo 做为一个流行的 nosql 数据库跟 mysql 有什么区别呢？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-05T14:41:25.604Z">
+<meta property="og:updated_time" content="2019-12-06T15:52:26.493Z">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://henrylee123.github.io/2019/12/01/mongodb%20%E9%9A%8F%E7%AC%94/">
@@ -216,7 +216,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-12-05 22:41:25" itemprop="dateModified" datetime="2019-12-05T22:41:25+08:00">2019-12-05</time>
+                <time title="Modified: 2019-12-06 23:52:26" itemprop="dateModified" datetime="2019-12-06T23:52:26+08:00">2019-12-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -354,7 +354,9 @@
 <blockquote>
 <p><em>primary</em>: 默认模式，一切读操作都路由到 primary 节点。<br><em>primaryPreferred</em>: 正常的情况下路由到 primary 节点，只有当 primary 不可用时路由到 secondary 节点。<br><em>secondary</em>: 一切读操作都路由到 secondary 节点。<br><em>secondaryPreferred</em>: 正常情况下路由到 secondary 节点，只有当 secondary 不可用时路由到 primary 节点。<br><em>nearest</em>: 一视同仁，从最小网络延迟节点读取。</p>
 </blockquote>
-<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><p>在 ViredTiger 引擎里，一个写操作写进了日志里就是持久的。在副本集中，一个写操作写进了大多数 mongo 节点的日志里就是持久的。</p>
+<h4 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h4><p>在事务的隔离性上面，mongo 没有像 mysql 那样可以分等级处理 <code>脏读</code> <code>幻读</code> <code>可重复读</code> 等问题。</p>
+<p>所以如果业务上需要比较严谨的事务最好用 mysql 或者 pg 更好。</p>
+<h4 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h4><p>在 ViredTiger 引擎里，一个写操作写进了日志里就是持久的。在副本集中，一个写操作写进了大多数 mongo 节点的日志里就是持久的。</p>
 <h3 id="Mongo-的锁"><a href="#Mongo-的锁" class="headerlink" title="Mongo 的锁"></a>Mongo 的锁</h3><ul>
 <li>查询 mongodb 中的 lock 情况</li>
 </ul>
@@ -407,6 +409,16 @@
 <li>mongorestore</li>
 </ol>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongorestore -h $(dbhost) -d $(dbname) -directoryperdb $(dir)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Mongo-的优势"><a href="#Mongo-的优势" class="headerlink" title="Mongo 的优势"></a>Mongo 的优势</h3><ol>
+<li><p>适应更频繁的业务变动</p>
+</li>
+<li><p>高并发的读业务</p>
+</li>
+<li><p>扩展起来更方便</p>
+</li>
+</ol>
+
     </div>
 
     
@@ -468,7 +480,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-概述"><span class="nav-number">1.</span> <span class="nav-text">Mongodb 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">2.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性"><span class="nav-number">2.1.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性"><span class="nav-number">2.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性"><span class="nav-number">2.3.</span> <span class="nav-text">隔离性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性"><span class="nav-number">2.4.</span> <span class="nav-text">持久性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongo-的锁"><span class="nav-number">3.</span> <span class="nav-text">Mongo 的锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-迁移方案"><span class="nav-number">4.</span> <span class="nav-text">Mongodb 迁移方案</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-概述"><span class="nav-number">1.</span> <span class="nav-text">Mongodb 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务"><span class="nav-number">2.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#原子性"><span class="nav-number">2.1.</span> <span class="nav-text">原子性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一致性"><span class="nav-number">2.2.</span> <span class="nav-text">一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#隔离性"><span class="nav-number">2.3.</span> <span class="nav-text">隔离性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#持久性"><span class="nav-number">2.4.</span> <span class="nav-text">持久性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongo-的锁"><span class="nav-number">3.</span> <span class="nav-text">Mongo 的锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongodb-迁移方案"><span class="nav-number">4.</span> <span class="nav-text">Mongodb 迁移方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mongo-的优势"><span class="nav-number">5.</span> <span class="nav-text">Mongo 的优势</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -484,20 +496,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
